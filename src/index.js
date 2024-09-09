@@ -1,4 +1,4 @@
-const express = require("express")
+const express = require("express");
 const mongoose = require('mongoose');
 const swaggerDocs = require('./swagger');
 
@@ -70,10 +70,17 @@ app.post("/", async (req, res) => {
  */
 app.get("/:cpf", async (req, res) => {
     const usuario = await Usuario.findOne({cpf: req.params.cpf});
-    return res.send(usuario);
+    if (usuario) {
+        return res.status(200).send(usuario);
+      } else {
+        return res.status(404).send({ message: "Usuário não encontrado" });
+      }
 });
 
 app.listen(port, () => {
     mongoose.connect('mongodb+srv://lavinialouise:fgM5PlnhIDTb2prO@trabalhobd.kpylk.mongodb.net/?retryWrites=true&w=majority&appName=TrabalhoBD');
    console.log('Rodando...') 
 });
+
+//LINK PARA ACESSAR A DOCUMENTAÇÃO
+//http://localhost:3000/api-docs
